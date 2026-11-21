@@ -1,0 +1,1440 @@
+
+/* ==========================================
+   BOOTHLAB
+   Interactive Binary Multiplication System
+   Design: Minimal Technical / Engineering
+========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+
+/* 1. VARIABLES */
+
+:root {
+    --bg: #0b1019;
+    --surface: #111b29;
+    --surface-2: #152234;
+    --surface-3: #0d1623;
+
+    --border: #263548;
+    --border-light: #31445a;
+
+    --cyan: #65c6df;
+    --blue: #83a9df;
+    --green: #70c7a5;
+    --red: #e58b8b;
+
+    --white: #e8edf3;
+    --text: #c6d0dc;
+    --muted: #8290a1;
+
+    --radius: 12px;
+}
+
+
+/* 2. RESET AND GLOBAL STYLES */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Remove decorative background effects */
+
+body::before {
+    display: none;
+}
+
+.background-glow {
+    display: none;
+}
+
+
+/* 3. NAVIGATION */
+
+.navbar {
+    min-height: 78px;
+    padding: 14px 7%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #0d1420;
+    border-bottom: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--cyan);
+    color: #0b1720;
+
+    border-radius: 9px;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.logo h2 {
+    font-size: 21px;
+    line-height: 1.2;
+    letter-spacing: -0.7px;
+}
+
+.logo h2 span,
+.footer-logo span {
+    color: var(--cyan);
+}
+
+.logo p {
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 1.2px;
+    margin-top: 4px;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.navbar nav a {
+    text-decoration: none;
+    color: var(--muted);
+
+    font-size: 12px;
+    font-weight: 500;
+
+    transition: color 0.2s;
+}
+
+.navbar nav a:hover,
+.navbar nav a.active {
+    color: var(--cyan);
+}
+
+.nav-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--green);
+    font-size: 11px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    background: var(--green);
+    border-radius: 50%;
+}
+
+
+/* 4. MAIN CONTAINER */
+
+.container {
+    width: 86%;
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+
+/* 5. HERO SECTION */
+
+.hero {
+    min-height: 375px;
+    padding: 66px 0 55px;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 282px;
+
+    align-items: center;
+    gap: clamp(35px, 7vw, 85px);
+}
+
+.hero-content {
+    min-width: 0;
+    max-width: 700px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 0;
+    margin-bottom: 23px;
+
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+}
+
+.tag span {
+    margin-right: 9px;
+    font-size: 10px;
+    color: var(--green);
+}
+
+.hero h1 {
+    font-size: clamp(36px, 4.5vw, 55px);
+    line-height: 1.16;
+
+    font-weight: 700;
+    letter-spacing: -2.2px;
+    color: var(--white);
+}
+
+.hero h1 span {
+    color: var(--cyan);
+}
+
+.hero-content > p {
+    max-width: 540px;
+    margin-top: 21px;
+
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+
+/* 6. HERO BINARY ILLUSTRATION */
+
+.hero-side {
+    width: 282px;
+    height: 286px;
+
+    padding: 38px 25px 23px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    position: relative;
+    overflow: hidden;
+
+    background: #111e30;
+    border: 1px solid #2b3b50;
+    border-radius: 23px;
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.16);
+}
+
+/* Circular frame around binary numbers */
+
+.hero-side::before {
+    content: "";
+
+    position: absolute;
+    top: 19px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 190px;
+    height: 190px;
+
+    border: 1px solid rgba(101, 198, 223, 0.23);
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+/* Binary numbers */
+
+.binary-decoration {
+    position: relative;
+    z-index: 1;
+
+    margin-top: 0;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+
+    line-height: 1.55;
+    letter-spacing: 6px;
+
+    text-align: center;
+    color: var(--cyan);
+
+    text-shadow: 0 0 12px rgba(101, 198, 223, 0.15);
+}
+
+/* Illustration caption */
+
+.hero-label {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+
+    padding-top: 12px;
+    border-top: 1px solid rgba(101, 198, 223, 0.12);
+
+    color: #a6b5c6;
+    font-size: 9px;
+    font-weight: 500;
+
+    line-height: 1.8;
+    letter-spacing: 2px;
+
+    text-align: center;
+}
+
+
+/* 7. SECTION HEADINGS */
+
+.section-heading {
+    margin: 34px 0 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.section-number {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--cyan);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.section-heading h2,
+.operation-header h2,
+.result-panel h2,
+.learning-section h2 {
+    font-size: 23px;
+    font-weight: 600;
+    letter-spacing: -0.6px;
+}
+
+.section-heading p,
+.result-panel > div:first-child p {
+    margin-top: 5px;
+
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.algorithm-badge,
+.iteration-counter {
+    padding: 8px 12px;
+
+    color: var(--cyan);
+    background: #142333;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.iteration-counter span {
+    margin-left: 5px;
+    color: var(--white);
+    font-weight: 600;
+}
+
+
+/* 8. INPUT CONFIGURATION */
+
+.input-panel {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr 0.8fr auto;
+
+    align-items: center;
+    gap: 18px;
+
+    padding: 27px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.input-group label,
+.operation-box label,
+.bit-combination label,
+.result-values label {
+    display: block;
+    margin-bottom: 10px;
+
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    height: 45px;
+
+    padding: 0 12px;
+
+    color: var(--white);
+    background: var(--surface-3);
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    outline: none;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: var(--cyan);
+}
+
+.input-group input::placeholder {
+    color: #657387;
+}
+
+.input-group small {
+    display: block;
+    margin-top: 7px;
+
+    color: #778599;
+    font-size: 10px;
+}
+
+.multiply-symbol {
+    color: var(--cyan);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 23px;
+}
+
+
+/* 9. BUTTONS */
+
+.primary-button,
+.secondary-button,
+.reset-button {
+    min-height: 43px;
+    padding: 0 16px;
+
+    border-radius: 7px;
+    cursor: pointer;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.primary-button {
+    color: #07151e;
+    background: var(--cyan);
+    border: 1px solid var(--cyan);
+}
+
+.primary-button:hover {
+    background: #80d3e7;
+    border-color: #80d3e7;
+}
+
+.primary-button span {
+    margin-left: 6px;
+    font-size: 15px;
+}
+
+.secondary-button {
+    color: var(--text);
+    background: #172437;
+    border: 1px solid var(--border-light);
+}
+
+.secondary-button:hover {
+    color: var(--cyan);
+    border-color: var(--cyan);
+}
+
+.reset-button {
+    color: var(--red);
+    background: #211b25;
+    border: 1px solid #49313a;
+}
+
+.reset-button:hover {
+    background: #30212a;
+}
+
+
+/* 10. REGISTER VISUALIZATION */
+
+.register-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.register-card {
+    padding: 21px 18px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    transition: border-color 0.2s;
+}
+
+.register-card:hover {
+    border-color: #49637a;
+}
+
+.register-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.register-top > span:first-child {
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+.register-symbol {
+    display: grid;
+    place-items: center;
+
+    width: 29px;
+    height: 29px;
+
+    background: #192b3e;
+    color: var(--cyan);
+
+    border-radius: 6px;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+}
+
+.register-value {
+    margin: 21px 0 12px;
+
+    color: var(--cyan);
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(16px, 1.8vw, 22px);
+    font-weight: 600;
+
+    letter-spacing: 2px;
+    overflow-wrap: anywhere;
+}
+
+.register-card small {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+
+/* 11. EXECUTION WORKSPACE */
+
+.operation-panel {
+    margin-top: 23px;
+    padding: 27px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.operation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+    padding-bottom: 19px;
+    border-bottom: 1px solid var(--border);
+}
+
+.execution-status {
+    padding: 7px 11px;
+
+    color: var(--green);
+    background: #14251f;
+    border: 1px solid #315242;
+
+    border-radius: 5px;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.6px;
+}
+
+.operation-content {
+    display: grid;
+    grid-template-columns: 1fr 170px;
+    gap: 17px;
+
+    margin: 23px 0;
+}
+
+.operation-box,
+.bit-combination {
+    padding: 21px;
+
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+}
+
+.operation-box h3 {
+    margin-bottom: 7px;
+    color: var(--cyan);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.operation-box p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.bit-combination {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.bit-combination > div {
+    color: var(--cyan);
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    font-weight: 600;
+
+    letter-spacing: 7px;
+}
+
+.execution-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
+/* 12. PROGRESS */
+
+.progress-panel {
+    margin-top: 22px;
+    padding: 21px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.progress-info span {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+.progress-info strong {
+    color: var(--cyan);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+}
+
+.progress-track {
+    width: 100%;
+    height: 6px;
+
+    background: #283648;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+
+    background: var(--cyan);
+    border-radius: 10px;
+
+    transition: width 0.3s ease;
+}
+
+
+/* 13. RESULT SECTION */
+
+.result-panel {
+    margin-top: 23px;
+    padding: 27px;
+
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    align-items: center;
+    gap: 25px;
+
+    background: #132233;
+    border: 1px solid #30485c;
+    border-radius: var(--radius);
+}
+
+.result-values {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.result-values > div {
+    padding: 16px;
+
+    background: #0d1826;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.result-values h3 {
+    color: var(--green);
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 17px;
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* 14. LEARNING SECTION */
+
+.learning-section {
+    padding: 65px 0;
+}
+
+.learning-section h2 {
+    margin-bottom: 9px;
+    font-size: 27px;
+}
+
+.learning-intro {
+    max-width: 680px;
+    margin-bottom: 26px;
+
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.rule-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 13px;
+}
+
+.rule-card {
+    padding: 21px 17px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    transition: border-color 0.2s;
+}
+
+.rule-card:hover {
+    border-color: #49637a;
+}
+
+.rule-card > span {
+    display: inline-block;
+
+    margin-bottom: 15px;
+    padding: 6px 11px;
+
+    background: #192d40;
+    color: var(--cyan);
+
+    border-radius: 5px;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.rule-card h3 {
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.rule-card p {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+
+/* 15. FOOTER */
+
+footer {
+    padding: 32px 0;
+
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.footer-logo {
+    margin-bottom: 6px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+footer p {
+    margin-bottom: 14px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.footer-bottom {
+    color: #718095;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+
+/* ==========================================
+   16. RESPONSIVE LAYOUT
+========================================== */
+
+
+/* Smaller laptops and tablets */
+
+@media (max-width: 1050px) {
+
+    .container {
+        width: 90%;
+    }
+
+    .input-panel {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .multiply-symbol {
+        display: none;
+    }
+
+    .input-panel .primary-button {
+        width: 100%;
+    }
+
+    .register-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rule-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* Tablets */
+
+@media (max-width: 760px) {
+
+    .hero {
+        grid-template-columns: minmax(0, 1fr) 230px;
+        gap: 25px;
+    }
+
+    .hero-side {
+        width: 230px;
+        height: 260px;
+    }
+
+    .hero-side::before {
+        width: 170px;
+        height: 170px;
+    }
+
+    .binary-decoration {
+        font-size: 18px;
+    }
+
+    .navbar {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .navbar nav {
+        gap: 17px;
+    }
+}
+
+
+/* Mobile phones */
+
+@media (max-width: 650px) {
+
+    .navbar {
+        padding: 13px 5%;
+        flex-wrap: wrap;
+        gap: 13px;
+    }
+
+    .navbar nav {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .navbar nav a {
+        font-size: 11px;
+    }
+
+    .nav-status {
+        font-size: 10px;
+    }
+
+    .container {
+        width: 90%;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 48px 0 38px;
+    }
+
+    .hero h1 {
+        font-size: clamp(34px, 9vw, 43px);
+        letter-spacing: -1.5px;
+    }
+
+    .hero-content > p {
+        font-size: 13px;
+    }
+
+    .hero-side {
+        justify-self: center;
+        width: min(100%, 282px);
+        height: 276px;
+    }
+
+    .hero-side::before {
+        width: 185px;
+        height: 185px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .input-panel {
+        grid-template-columns: 1fr;
+        padding: 21px;
+        gap: 19px;
+    }
+
+    .register-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .register-card {
+        padding: 16px 12px;
+    }
+
+    .register-top > span:first-child {
+        font-size: 8px;
+    }
+
+    .register-value {
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+    .operation-panel {
+        padding: 20px;
+    }
+
+    .operation-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .operation-content {
+        grid-template-columns: 1fr;
+    }
+
+    .execution-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .execution-controls button {
+        width: 100%;
+    }
+
+    .result-panel {
+        grid-template-columns: 1fr;
+        padding: 21px;
+    }
+
+    .result-values {
+        grid-template-columns: 1fr;
+    }
+
+    .learning-section {
+        padding: 48px 0;
+    }
+}
+
+
+/* Very small phones */
+
+@media (max-width: 380px) {
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .register-grid,
+    .rule-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .register-value {
+        font-size: 19px;
+    }
+
+    .algorithm-badge {
+        font-size: 9px;
+    }
+}
+
+
+/* 17. ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+
+/* =====================================
+   HOW IT WORKS
+===================================== */
+
+.section-intro {
+    max-width: 760px;
+    margin-bottom: 30px;
+}
+
+.section-intro h2 {
+    font-size: 27px;
+    font-weight: 600;
+    letter-spacing: -0.8px;
+    margin-bottom: 10px;
+}
+
+.section-intro > p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+
+/* Process Cards */
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.process-card {
+    min-height: 205px;
+    padding: 23px 19px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    transition: border-color 0.2s ease;
+}
+
+.process-card:hover {
+    border-color: #526b80;
+}
+
+.process-index {
+    display: block;
+    margin-bottom: 27px;
+
+    color: var(--cyan);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.process-card h3 {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.process-card p {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+
+/* Operation Rules */
+
+.rules-container {
+    margin-top: 35px;
+    padding: 25px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.rules-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.rules-heading h3 {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.rules-note {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.rule-table {
+    width: 100%;
+}
+
+.rule-row {
+    display: grid;
+    grid-template-columns: 0.7fr 1.2fr 1.5fr;
+
+    align-items: center;
+    gap: 15px;
+
+    min-height: 53px;
+    padding: 10px 13px;
+
+    border-top: 1px solid var(--border);
+
+    font-size: 12px;
+    color: var(--text);
+}
+
+.rule-header {
+    min-height: 40px;
+    border-top: none;
+
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+.rule-bits {
+    color: var(--cyan);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.algorithm-note {
+    margin-top: 17px;
+    padding: 14px 17px;
+
+    background: #122331;
+    border-left: 3px solid var(--cyan);
+
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+.algorithm-note strong {
+    color: var(--cyan);
+}
+
+
+/* =====================================
+   ABOUT SECTION
+===================================== */
+
+.about-section {
+    padding: 45px 0 70px;
+    border-top: 1px solid var(--border);
+}
+
+.about-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 50px;
+
+    margin-top: 35px;
+}
+
+.about-description h3 {
+    max-width: 450px;
+    margin-bottom: 18px;
+
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.about-description p {
+    max-width: 580px;
+    margin-bottom: 15px;
+
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 2;
+}
+
+
+/* Project Information */
+
+.about-information {
+    border-top: 1px solid var(--border);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.info-item span {
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.info-item strong {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--white);
+}
+
+
+/* Technology Section */
+
+.technology-section {
+    margin-top: 42px;
+    padding-top: 25px;
+    border-top: 1px solid var(--border);
+}
+
+.technology-section h3 {
+    margin-bottom: 19px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.technology-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px;
+}
+
+.technology-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    padding: 17px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.technology-item strong {
+    font-size: 13px;
+    color: var(--cyan);
+}
+
+.technology-item span {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+
+/* =====================================
+   MOBILE RESPONSIVENESS
+===================================== */
+
+@media (max-width: 900px) {
+
+    .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .section-intro h2 {
+        font-size: 24px;
+    }
+
+    .process-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .process-card {
+        min-height: 225px;
+        padding: 17px 14px;
+    }
+
+    .process-index {
+        margin-bottom: 20px;
+    }
+
+    .rules-container {
+        padding: 17px 12px;
+    }
+
+    .rule-row {
+        grid-template-columns: 0.6fr 1fr 1.3fr;
+        gap: 8px;
+        padding: 9px 5px;
+        font-size: 10px;
+    }
+
+    .rule-header {
+        font-size: 8px;
+    }
+
+    .rule-bits {
+        font-size: 12px;
+    }
+
+    .rules-note {
+        display: none;
+    }
+
+    .about-section {
+        padding: 38px 0 50px;
+    }
+
+    .about-layout {
+        margin-top: 25px;
+        gap: 20px;
+    }
+
+    .about-description h3 {
+        font-size: 19px;
+    }
+
+    .technology-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 380px) {
+
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .process-card {
+        min-height: auto;
+    }
+
+    .rule-row {
+        font-size: 9px;
+    }
+}
+
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}

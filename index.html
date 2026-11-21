@@ -1,0 +1,646 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BoothLab | Binary Multiplication Simulator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Background -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <!-- Main Navigation -->
+   
+ <header class="navbar">
+
+    <div class="logo">
+        <div class="logo-icon">B</div>
+
+        <div>
+            <h2>Booth<span>Lab</span></h2>
+            <p>BOOTH'S MULTIPLICATION ALGORITHM SIMULATOR</p>
+        </div>
+    </div>
+
+    <nav>
+        <a href="#home" class="active">Simulator</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#about">About</a>
+    </nav>
+
+ </header>
+
+
+    <!-- Main Container -->
+    <main class="container" id="home">
+
+        <!-- Hero Section -->
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="tag">
+                    <span>●</span> COMPUTER ARCHITECTURE AND ORGANIZATION BASED PROJECT
+                </div>
+
+                <h1>
+                    Understand Binary<br>
+                    Multiplication <span>Visually.</span>
+                </h1>
+
+                <p>
+                    Explore Booth's Multiplication Algorithm through
+                    step-by-step execution, register visualisation
+                    and real-time binary operations.
+                </p>
+
+            </div>
+
+            <div class="hero-side">
+                <div class="binary-decoration">
+                    1011<br>
+                    0110<br>
+                    1101<br>
+                    0011
+                </div>
+
+                <div class="hero-label">
+                    SIGNED BINARY<br>
+                    MULTIPLICATION
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- Simulator Heading -->
+        <section class="section-heading">
+
+            <div>
+                <span class="section-number">01 / SIMULATION</span>
+                <h2>Configure Your Inputs</h2>
+                <p>Enter two signed decimal integers to begin.</p>
+            </div>
+
+            <div class="algorithm-badge">
+                BOOTH'S ALGORITHM
+            </div>
+
+        </section>
+
+
+        <!-- Input Configuration -->
+        <section class="input-panel">
+
+            <div class="input-group">
+
+                <label for="multiplicand">
+                    MULTIPLICAND (M)
+                </label>
+
+                <input
+                    type="number"
+                    id="multiplicand"
+                    placeholder="Enter first number"
+                >
+
+                <small>Number to be multiplied</small>
+
+            </div>
+
+
+            <div class="multiply-symbol">×</div>
+
+
+            <div class="input-group">
+
+                <label for="multiplier">
+                    MULTIPLIER (Q)
+                </label>
+
+                <input
+                    type="number"
+                    id="multiplier"
+                    placeholder="Enter second number"
+                >
+
+                <small>Number of multiplication</small>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="bit-width">
+                    BIT WIDTH
+                </label>
+
+                <select id="bit-width">
+                    <option value="4">4 Bits</option>
+                    <option value="5">5 Bits</option>
+                    <option value="8" selected>8 Bits</option>
+                    <option value="16">16 Bits</option>
+                </select>
+
+                <small>Register size</small>
+
+            </div>
+
+
+            <button id="start-btn" class="primary-button">
+                Start Simulation <span>→</span>
+            </button>
+
+        </section>
+
+
+        <!-- Register Section -->
+        <section class="section-heading">
+
+            <div>
+                <span class="section-number">02 / PROCESSING</span>
+                <h2>Register Visualization</h2>
+                <p>Monitor the internal registers during execution.</p>
+            </div>
+
+            <div class="iteration-counter">
+                ITERATION <span id="iteration">0</span>
+            </div>
+
+        </section>
+
+
+        <section class="register-grid">
+
+            <div class="register-card">
+                <div class="register-top">
+                    <span>ACCUMULATOR</span>
+                    <span class="register-symbol">A</span>
+                </div>
+
+                <div class="register-value" id="reg-a">
+                    00000000
+                </div>
+
+                <small>Stores intermediate results</small>
+            </div>
+
+
+            <div class="register-card">
+                <div class="register-top">
+                    <span>MULTIPLIER</span>
+                    <span class="register-symbol">Q</span>
+                </div>
+
+                <div class="register-value" id="reg-q">
+                    00000000
+                </div>
+
+                <small>Contains multiplier bits</small>
+            </div>
+
+
+            <div class="register-card">
+                <div class="register-top">
+                    <span>MULTIPLICAND</span>
+                    <span class="register-symbol">M</span>
+                </div>
+
+                <div class="register-value" id="reg-m">
+                    00000101
+                </div>
+
+                <small>Contains multiplicand bits</small>
+            </div>
+
+
+            <div class="register-card">
+                <div class="register-top">
+                    <span>PREVIOUS BIT</span>
+                    <span class="register-symbol">Q-1</span>
+                </div>
+
+                <div class="register-value" id="reg-qminus">
+                    0
+                </div>
+
+                <small>Stores previous Q₀ bit</small>
+            </div>
+
+        </section>
+
+
+        <!-- Operation Section -->
+        <section class="operation-panel">
+
+            <div class="operation-header">
+                <div>
+                    <span class="section-number">03 / EXECUTION</span>
+                    <h2>Algorithm Execution</h2>
+                </div>
+
+                <span class="execution-status" id="status">
+                    WAITING TO START
+                </span>
+            </div>
+
+
+            <div class="operation-content">
+
+                <div class="operation-box">
+                    <label>CURRENT OPERATION</label>
+
+                    <h3 id="current-operation">
+                        Awaiting Input
+                    </h3>
+
+                    <p id="operation-description">
+                        Start the simulation to view the operations.
+                    </p>
+                </div>
+
+
+                <div class="bit-combination">
+                    <label>Q₀ Q₋₁ COMBINATION</label>
+
+                    <div id="bit-pair">
+                        0 0
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Execution Controls -->
+            <div class="execution-controls">
+
+                <button id="previous-btn" class="secondary-button">
+                    ← Previous
+                </button>
+
+                <button id="next-btn" class="primary-button">
+                    Next Step →
+                </button>
+
+                <button id="auto-btn" class="secondary-button">
+                    Auto Play
+                </button>
+
+                <button id="reset-btn" class="reset-button">
+                    Reset
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Progress Section -->
+        <section class="progress-panel">
+
+            <div class="progress-info">
+                <span>SIMULATION PROGRESS</span>
+                <strong id="progress-text">0%</strong>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+        </section>
+
+
+        <!-- Final Result -->
+        <section class="result-panel" id="result">
+
+            <div>
+                <span class="section-number">04 / FINAL OUTPUT</span>
+                <h2>Multiplication Result</h2>
+                <p>Final result after completing all iterations.</p>
+            </div>
+
+            <div class="result-values">
+
+                <div>
+                    <label>BINARY PRODUCT</label>
+                    <h3 id="binary-result">--------</h3>
+                </div>
+
+                <div>
+                    <label>DECIMAL PRODUCT</label>
+                    <h3 id="decimal-result">--</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Learning Section -->
+        
+<!-- HOW IT WORKS SECTION -->
+
+<section class="learning-section" id="how-it-works">
+
+    <div class="section-intro">
+        <span class="section-number">05 / ALGORITHM OVERVIEW</span>
+
+        <h2>How Booth's Algorithm Works</h2>
+
+        <p>
+            Booth's algorithm performs signed binary multiplication
+            using two's complement representation. It examines
+            consecutive bits of the multiplier to determine
+            whether addition, subtraction or no operation is required.
+        </p>
+    </div>
+
+
+    <!-- Four Main Steps -->
+
+    <div class="process-grid">
+
+        <article class="process-card">
+
+            <span class="process-index">01</span>
+
+            <h3>Initialize Registers</h3>
+
+            <p>
+                Set the accumulator A to zero. Load the multiplier
+                into Q, the multiplicand into M, and initialize
+                Q-1 to zero.
+            </p>
+
+        </article>
+
+
+        <article class="process-card">
+
+            <span class="process-index">02</span>
+
+            <h3>Examine Bit Pair</h3>
+
+            <p>
+                Examine the least significant bit of Q (Q₀)
+                and the previous bit (Q-1) to determine
+                the required operation.
+            </p>
+
+        </article>
+
+
+        <article class="process-card">
+
+            <span class="process-index">03</span>
+
+            <h3>Perform Operation</h3>
+
+            <p>
+                Depending on the bit pair, add M to A,
+                subtract M from A, or leave A unchanged.
+            </p>
+
+        </article>
+
+
+        <article class="process-card">
+
+            <span class="process-index">04</span>
+
+            <h3>Arithmetic Right Shift</h3>
+
+            <p>
+                Perform an arithmetic right shift on the
+                combined registers A, Q and Q-1. Repeat
+                the process for the selected bit width.
+            </p>
+
+        </article>
+
+    </div>
+
+
+    <!-- Operation Reference -->
+
+    <div class="rules-container">
+
+        <div class="rules-heading">
+
+            <div>
+                <span class="section-number">OPERATION REFERENCE</span>
+                <h3>Booth's Decision Rules</h3>
+            </div>
+
+            <span class="rules-note">Based on Q₀ and Q-1</span>
+
+        </div>
+
+
+        <div class="rule-table">
+
+            <div class="rule-row rule-header">
+                <span>Q₀ Q-1</span>
+                <span>Operation</span>
+                <span>Register Action</span>
+            </div>
+
+
+            <div class="rule-row">
+                <span class="rule-bits">00</span>
+                <span>No Operation</span>
+                <span>A remains unchanged</span>
+            </div>
+
+
+            <div class="rule-row">
+                <span class="rule-bits">01</span>
+                <span>Addition</span>
+                <span>A = A + M</span>
+            </div>
+
+
+            <div class="rule-row">
+                <span class="rule-bits">10</span>
+                <span>Subtraction</span>
+                <span>A = A - M</span>
+            </div>
+
+
+            <div class="rule-row">
+                <span class="rule-bits">11</span>
+                <span>No Operation</span>
+                <span>A remains unchanged</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="algorithm-note">
+
+        <strong>Important:</strong>
+
+        The arithmetic right shift is performed after the
+        selected operation in every iteration. The process
+        continues until all bits have been processed.
+
+    </div>
+
+</section>
+
+ 
+<!-- ABOUT SECTION -->
+
+<section class="about-section" id="about">
+
+    <div class="section-intro">
+        <span class="section-number">06 / PROJECT INFORMATION</span>
+
+        <h2>About the Project</h2>
+
+        <p>
+            Understanding computer arithmetic through
+            interactive simulation.
+        </p>
+    </div>
+
+
+    <div class="about-layout">
+
+        <!-- Project Description -->
+
+        <div class="about-description">
+
+            <h3>Making Binary Arithmetic Easier to Understand</h3>
+
+            <p>
+                BoothLab is an interactive educational simulator
+                developed to demonstrate Booth's Multiplication
+                Algorithm, a technique used for multiplying signed
+                binary numbers.
+            </p>
+
+            <p>
+                The project provides a visual representation of
+                the algorithm's internal working by displaying
+                register values, arithmetic operations and
+                bit shifting at every iteration.
+            </p>
+
+            <p>
+                Instead of displaying only the final answer,
+                BoothLab allows users to follow the complete
+                calculation process and understand how the
+                result is obtained.
+            </p>
+
+        </div>
+
+
+        <!-- Project Information -->
+
+        <div class="about-information">
+
+            <div class="info-item">
+
+                <span>PROJECT DOMAIN</span>
+                <strong>Computer Architecture & Organization</strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span>CORE CONCEPT</span>
+                <strong>Signed Binary Multiplication</strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span>ALGORITHM</span>
+                <strong>Booth's Multiplication Algorithm</strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span>IMPLEMENTATION</span>
+                <strong>Interactive Web-Based Simulator</strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Technologies -->
+
+    <div class="technology-section">
+
+        <h3>Technologies Used</h3>
+
+        <div class="technology-list">
+
+            <div class="technology-item">
+                <strong>HTML5</strong>
+                <span>Application Structure</span>
+            </div>
+
+            <div class="technology-item">
+                <strong>CSS3</strong>
+                <span>Interface and Styling</span>
+            </div>
+
+            <div class="technology-item">
+                <strong>JavaScript</strong>
+                <span>Algorithm and Logic</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+        <!-- Footer -->
+        <footer id="about">
+
+            <div class="footer-logo">
+                Booth<span>Lab</span>
+            </div>
+
+            <p>
+                An interactive learning project based on
+                Booth's Multiplication Algorithm.
+            </p>
+
+            <span class="footer-bottom">
+                BOOTH'S MULTIPLICATION ALGORITHM SIMULATOR
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+ 
